@@ -450,7 +450,6 @@
                 <div class="share-section">
                     <p>Know another business owner who could use this guide? Share it with them!</p>
                     <div class="social-icons">
-                        <a href="#" id="facebook-share"><i class="fab fa-facebook"></i></a>
                         <a href="#" id="twitter-share"><i class="fab fa-twitter"></i></a>
                         <a href="#" id="linkedin-share"><i class="fab fa-linkedin"></i></a>
                     </div>
@@ -622,7 +621,6 @@
             const scoreBadge = document.getElementById('score-badge');
             const adviceText = document.getElementById('advice-text');
             const improvementsContainer = document.getElementById('improvements-container');
-            const facebookShare = document.getElementById('facebook-share');
             const twitterShare = document.getElementById('twitter-share');
             const linkedinShare = document.getElementById('linkedin-share');
             const copyLink = document.getElementById('copy-link');
@@ -798,16 +796,6 @@
                 const url = encodeURIComponent(window.location.href);
                 const message = `I scored ${score}% on the business growth survey! I also got a free PDF with great tips to help my business grow. It only takes a few minutes—highly recommend checking it out. Just click the link to take the survey: ${url}`;
                 
-                // Facebook share - using the share dialog with both text and URL
-                facebookShare.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    FB.ui({
-                        method: 'share',
-                        href: window.location.href,
-                        quote: `I scored ${score}% on the business growth survey! I also got a free PDF with great tips to help my business grow. It only takes a few minutes—highly recommend checking it out.`
-                    }, function(response){});
-                });
-                
                 // Twitter share
                 twitterShare.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -819,17 +807,6 @@
                     e.preventDefault();
                     window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, 'linkedin-share-dialog', 'width=626,height=436');
                 });
-                
-                // Load Facebook SDK if not already loaded
-                if (typeof FB === 'undefined') {
-                    (function(d, s, id) {
-                        var js, fjs = d.getElementsByTagName(s)[0];
-                        if (d.getElementById(id)) return;
-                        js = d.createElement(s); js.id = id;
-                        js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
-                        fjs.parentNode.insertBefore(js, fjs);
-                    }(document, 'script', 'facebook-jssdk'));
-                }
                 
                 surveyScreen.classList.add('hidden');
                 resultsScreen.classList.remove('hidden');
