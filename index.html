@@ -796,11 +796,40 @@
                 
                 // Set up social sharing with the updated message
                 const url = encodeURIComponent(window.location.href);
-                const text = encodeURIComponent(`I scored ${score}% on the business growth survey! I also got a free PDF with great tips to help my business grow. It only takes a few minutes—highly recommend checking it out. Just click the link to take the survey:`);
+                const message = `I scored ${score}% on the business growth survey! I also got a free PDF with great tips to help my business grow. It only takes a few minutes—highly recommend checking it out. Just click the link to take the survey: ${url}`;
                 
-                facebookShare.href = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-                twitterShare.href = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
-                linkedinShare.href = `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=Business%20Growth%20Survey&summary=${text}`;
+                // Facebook share - using the share dialog with both text and URL
+                facebookShare.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    FB.ui({
+                        method: 'share',
+                        href: window.location.href,
+                        quote: `I scored ${score}% on the business growth survey! I also got a free PDF with great tips to help my business grow. It only takes a few minutes—highly recommend checking it out.`
+                    }, function(response){});
+                });
+                
+                // Twitter share
+                twitterShare.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`, 'twitter-share-dialog', 'width=626,height=436');
+                });
+                
+                // LinkedIn share
+                linkedinShare.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, 'linkedin-share-dialog', 'width=626,height=436');
+                });
+                
+                // Load Facebook SDK if not already loaded
+                if (typeof FB === 'undefined') {
+                    (function(d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id)) return;
+                        js = d.createElement(s); js.id = id;
+                        js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+                }
                 
                 surveyScreen.classList.add('hidden');
                 resultsScreen.classList.remove('hidden');
