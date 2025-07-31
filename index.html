@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover Where You Stand—and How to Grow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #222222;
+            --accent: #F05423;
+            --accent-hover: #D4441A;
+            --secondary: #E5E5E5;
+            --white: #FFFFFF;
+            --highlight: #A9E04D;
+            --red: #FF6B6B;
+            --orange: #F05423;
+            --green: #A9E04D;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--white);
+            color: var(--primary);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .card {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 700px;
+            padding: 32px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .subheader {
+            font-family: 'Open Sans', sans-serif;
+            text-align: center;
+            margin-bottom: 24px;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        
+        .btn {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--accent);
+            color: var(--white);
+        }
+        
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 1rem;
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: var(--secondary);
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            border-radius: 8px;
+            background-color: var(--accent);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+            text-align: right;
+        }
+        
+        .question {
+            margin-bottom: 32px;
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: 8px;
+            background-color: var(--secondary);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .option:hover {
+            background-color: #d5d5d5;
+        }
+        
+        .option.selected {
+            background-color: var(--accent);
+            color: var(--white);
+        }
+        
+        .option input {
+            margin-right: 12px;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .option.selected input {
+            border-color: var(--white);
+            background-color: var(--white);
+        }
+        
+        .option input:checked::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+        }
+        
+        .option.selected input:checked::after {
+            background-color: var(--accent);
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 32px;
+        }
+        
+        .share-section {
+            background-color: var(--secondary);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 32px;
+        }
+        
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin: 16px 0;
+        }
+        
+        .social-icons a {
+            color: var(--primary);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            color: var(--accent);
+        }
+        
+        .results-container {
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        .score-display {
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+        
+        .score-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .badge-red {
+            background-color: var(--red);
+            color: var(--white);
+        }
+        
+        .badge-orange {
+            background-color: var(--orange);
+            color: var(--white);
+        }
+        
+        .badge-green {
+            background-color: var(--green);
+            color: var(--primary);
+        }
+        
+        .advice-text {
+            font-size: 1.1rem;
+            margin-bottom: 32px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .pdf-button {
+            position: relative;
+            margin: 24px auto;
+            max-width: 300px;
+        }
+        
+        .pdf-button .small-text {
+            display: block;
+            font-size: 0.8rem;
+            margin-top: 4px;
+            color: var(--white);
+            opacity: 0.9;
+        }
+        
+        .improvement-card {
+            background-color: var(--secondary);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+        
+        .improvement-card h4 {
+            margin-bottom: 8px;
+            color: var(--accent);
+        }
+        
+        .improvement-card p {
+            margin-bottom: 8px;
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(240, 84, 35, 0.2);
+            border-radius: 50%;
+            border-top: 4px solid var(--accent);
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .card {
+                padding: 24px 16px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .subheader {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+            }
+            
+            .question-text {
+                font-size: 1rem;
+            }
+            
+            .score-display {
+                font-size: 3rem;
+            }
+        }
+        
+        /* Sticky progress bar for mobile */
+        @media (max-width: 480px) {
+            .progress-container {
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                background-color: var(--white);
+                padding: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Intro Screen -->
+        <div class="card" id="intro-screen">
+            <h1>Discover Where You Stand—and How to Grow</h1>
+            <p class="subheader">Take this 3-minute survey to see exactly which areas can drive more customers.</p>
+            
+            <div style="background-color: var(--secondary); padding: 16px; border-radius: 8px; margin-bottom: 24px;">
+                <h4>How to Take This Survey</h4>
+                <p><strong>Important:</strong> This survey is for you—nobody else.</p>
+                <p>Answer honestly, not how you wish things were, but how they actually are right now.</p>
+                <p><strong>Tip:</strong> If you pick the "best" answer just to look good, you'll only cheat yourself out of clarity.</p>
+                <p>The more truthful you are, the faster you'll see where to improve.</p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 32px;">
+                <button class="btn btn-primary btn-large" id="start-survey">Start the Survey</button>
+            </div>
+        </div>
+        
+        <!-- Survey Screen -->
+        <div class="card hidden" id="survey-screen">
+            <div class="progress-container">
+                <div class="progress-text" id="progress-text">Question 1 of 10</div>
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            
+            <div id="questions-container">
+                <!-- Questions will be dynamically inserted here -->
+            </div>
+            
+            <div class="navigation">
+                <button class="btn btn-secondary" id="prev-btn" disabled>Previous</button>
+                <button class="btn btn-primary" id="next-btn">Next</button>
+            </div>
+        </div>
+        
+        <!-- Loading Screen -->
+        <div class="card hidden" id="loading-screen">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <p style="text-align: center; margin-top: 16px;">Calculating your results...</p>
+        </div>
+        
+        <!-- Results Screen -->
+        <div class="card hidden" id="results-screen">
+            <div class="results-container">
+                <h2>Your Growth Score</h2>
+                <div class="score-display" id="score-display">0%</div>
+                <div class="score-badge" id="score-badge">Just Getting Started</div>
+                <p class="advice-text" id="advice-text"></p>
+                
+                <div class="pdf-button">
+                    <a href="https://15provenwaystoattractclients.netlify.app/" class="btn btn-primary btn-large" target="_blank">
+                        Click to Access PDF
+                        <span class="small-text">15 Proven Ways to Attract More Customers</span>
+                    </a>
+                </div>
+                
+                <div id="improvements-container">
+                    <h3 style="text-align: left; margin: 32px 0 16px;">⚡ Areas To Improve</h3>
+                    <!-- Improvement cards will be inserted here -->
+                </div>
+                
+                <div class="share-section">
+                    <p>Know another business owner who could use this guide? Share it with them!</p>
+                    <div class="social-icons">
+                        <a href="#" id="twitter-share"><i class="fab fa-twitter"></i></a>
+                        <a href="#" id="linkedin-share"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                    <button class="btn btn-secondary" id="copy-link">Copy Link</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Survey questions data
+            const questions = [
+                {
+                    question: "Do you have a clear brand story that you share across your channels?",
+                    options: [
+                        "Yes, my story is everywhere (website, socials, emails).",
+                        "Sort of, but it's not consistent.",
+                        "No, I haven't shared my story much."
+                    ],
+                    correct: 0,
+                    advice: {
+                        1: "You don't share your story consistently. Advice: Post it weekly on all platforms.",
+                        2: "You haven't shared your story yet. Advice: Write and publish your origin story now."
+                    }
+                },
+                {
+                    question: "How easy is it for someone to buy from you?",
+                    options: [
+                        "Super easy—fast checkout and clear steps.",
+                        "Somewhat easy, but could be smoother.",
+                        "It's confusing or requires manual steps."
+                    ],
+                    correct: 0,
+                    advice: {
+                        1: "Your checkout process still causes friction. Advice: Simplify to one clear step.",
+                        2: "Buying feels confusing for customers. Advice: Streamline checkout and remove obstacles."
+                    }
+                },
+                {
+                    question: "Do you have a flagship offer you focus on first?",
+                    options: [
+                        "Yes, one clear main offer.",
+                        "I have too many options.",
+                        "I don't really have a defined offer."
+                    ],
+                    correct: 0,
+                    advice: {
+                        1: "Too many choices overwhelm customers. Advice: Focus on one main offer first.",
+                        2: "No clear flagship offer set. Advice: Create and feature your main product."
+                    }
+                },
+                {
+                    question: "Are you using social proof (testimonials, reviews, case studies) consistently?",
+                    options: [
+                        "Yes, everywhere.",
+                        "Only in some places.",
+                        "Not really."
+                    ],
+                    correct: 0,
+                    advice: {
+                        1: "You're not using social proof everywhere. Advice: Showcase testimonials on all pages.",
+                        2: "No consistent social proof shown. Advice: Collect and share reviews prominently."
+                    }
+                },
+                {
+                    question: "Do you have an email list you communicate with regularly?",
+                    options: [
+                        "Yes, I email consistently.",
+                        "I collect emails but rarely use them.",
+                        "I don't have an email list."
+                    ],
+                    correct: 0,
+                    advice: {
+                        1: "You're not emailing your list regularly. Advice: Send one email per week.",
+                        2: "You haven't built an email list yet. Advice: Start collecting emails today."
+                    }
+                },
+                {
+                    question: "Have you partnered with other businesses to reach more customers?",
+                    options: [
+                        "Yes, I collaborate often.",
+                        "Occasionally.",
+                        "Never tried partnerships."
+                    ],
+                    correct: 0,
+                    advice: {
+                        1: "Partnerships are underused in your growth. Advice: Plan more collaborations quarterly.",
+                        2: "You haven't tried any partnerships yet. Advice: Reach out to complementary brands now."
+                    }
+                },
+                {
+                    question: "Is your website up and running?",
+                    options: [
+                        "Yes, clean and professional.",
+                        "I have one, but it needs work.",
+                        "I don't have a website yet."
+                    ],
+                    correct: 0,
+                    advice: {
+                        1: "Your website could be improved. Advice: Refresh design and content.",
+                        2: "No website means no online credibility. Advice: Launch a simple site ASAP."
+                    }
+                },
+                {
+                    question: "Do you regularly show your face or personality in your content?",
+                    options: [
+                        "Yes, often.",
+                        "Sometimes.",
+                        "Rarely or never."
+                    ],
+                    correct: 0,
+                    advice: {
+                        1: "You're not visible enough to customers. Advice: Show up more consistently on video.",
+                        2: "You're hiding behind your brand. Advice: Start posting personal videos weekly."
+                    }
+                },
+                {
+                    question: "How quickly do you follow up with leads or customer inquiries?",
+                    options: [
+                        "Within 24 hours.",
+                        "Within a few days.",
+                        "Whenever I remember."
+                    ],
+                    correct: 0,
+                    advice: {
+                        1: "Follow-up is slower than it should be. Advice: Respond within 24 hours.",
+                        2: "Follow-up is inconsistent or delayed. Advice: Set reminders and follow up fast."
+                    }
+                },
+                {
+                    question: "How much do you focus on creating an exceptional customer experience?",
+                    options: [
+                        "I obsess over it every step of the way.",
+                        "I do the basics.",
+                        "It's not a big focus right now."
+                    ],
+                    correct: 0,
+                    advice: {
+                        1: "Your customer experience is just okay. Advice: Add a 'wow' moment to each sale.",
+                        2: "Experience isn't a current priority. Advice: Make it your #1 focus."
+                    }
+                }
+            ];
+
+            // Shuffle questions array to randomize order
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+
+            const shuffledQuestions = shuffleArray([...questions]);
+            
+            // DOM elements
+            const introScreen = document.getElementById('intro-screen');
+            const surveyScreen = document.getElementById('survey-screen');
+            const loadingScreen = document.getElementById('loading-screen');
+            const resultsScreen = document.getElementById('results-screen');
+            const questionsContainer = document.getElementById('questions-container');
+            const progressText = document.getElementById('progress-text');
+            const progressBar = document.getElementById('progress-bar');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const startSurveyBtn = document.getElementById('start-survey');
+            const scoreDisplay = document.getElementById('score-display');
+            const scoreBadge = document.getElementById('score-badge');
+            const adviceText = document.getElementById('advice-text');
+            const improvementsContainer = document.getElementById('improvements-container');
+            const twitterShare = document.getElementById('twitter-share');
+            const linkedinShare = document.getElementById('linkedin-share');
+            const copyLink = document.getElementById('copy-link');
+            
+            // Survey state
+            let currentQuestion = 0;
+            let answers = JSON.parse(localStorage.getItem('surveyAnswers')) || Array(shuffledQuestions.length).fill(null);
+            
+            // Initialize the survey
+            function initSurvey() {
+                // Check if there are saved answers
+                const savedAnswers = localStorage.getItem('surveyAnswers');
+                if (savedAnswers) {
+                    answers = JSON.parse(savedAnswers);
+                    // Find the first unanswered question
+                    const firstUnanswered = answers.findIndex(answer => answer === null);
+                    currentQuestion = firstUnanswered === -1 ? answers.length - 1 : firstUnanswered;
+                }
+                
+                renderQuestion();
+                updateProgress();
+            }
+            
+            // Render the current question
+            function renderQuestion() {
+                questionsContainer.innerHTML = '';
+                
+                const question = shuffledQuestions[currentQuestion];
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                const questionText = document.createElement('div');
+                questionText.className = 'question-text';
+                questionText.textContent = question.question;
+                questionDiv.appendChild(questionText);
+                
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'options';
+                
+                question.options.forEach((option, index) => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = `option ${answers[currentQuestion] === index ? 'selected' : ''}`;
+                    optionDiv.dataset.index = index;
+                    
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = 'question';
+                    input.id = `option-${index}`;
+                    input.checked = answers[currentQuestion] === index;
+                    
+                    const label = document.createElement('label');
+                    label.htmlFor = `option-${index}`;
+                    label.textContent = option;
+                    
+                    optionDiv.appendChild(input);
+                    optionDiv.appendChild(label);
+                    
+                    optionDiv.addEventListener('click', () => {
+                        document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+                        optionDiv.classList.add('selected');
+                        answers[currentQuestion] = index;
+                        localStorage.setItem('surveyAnswers', JSON.stringify(answers));
+                        
+                        // Enable next button when an option is selected
+                        if (currentQuestion < shuffledQuestions.length - 1) {
+                            nextBtn.disabled = false;
+                        }
+                    });
+                    
+                    optionsDiv.appendChild(optionDiv);
+                });
+                
+                questionDiv.appendChild(optionsDiv);
+                questionsContainer.appendChild(questionDiv);
+                
+                // Update navigation buttons
+                prevBtn.disabled = currentQuestion === 0;
+                nextBtn.disabled = answers[currentQuestion] === null && currentQuestion < shuffledQuestions.length - 1;
+                
+                if (currentQuestion === shuffledQuestions.length - 1) {
+                    nextBtn.textContent = 'Submit';
+                } else {
+                    nextBtn.textContent = 'Next';
+                }
+            }
+            
+            // Update progress bar and text
+            function updateProgress() {
+                const progress = ((currentQuestion + 1) / shuffledQuestions.length) * 100;
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = `Question ${currentQuestion + 1} of ${shuffledQuestions.length}`;
+            }
+            
+            // Calculate score
+            function calculateScore() {
+                let score = 0;
+                const improvements = [];
+                
+                shuffledQuestions.forEach((question, index) => {
+                    if (answers[index] === question.correct) {
+                        score += 10;
+                    } else if (answers[index] !== null) {
+                        // Add improvement advice if answer was incorrect
+                        const advice = question.advice[answers[index]];
+                        if (advice) {
+                            improvements.push({
+                                question: question.question,
+                                answer: question.options[answers[index]],
+                                advice: advice
+                            });
+                        }
+                    }
+                });
+                
+                return { score, improvements };
+            }
+            
+            // Show results
+            function showResults() {
+                const { score, improvements } = calculateScore();
+                
+                scoreDisplay.textContent = `${score}%`;
+                
+                // Set badge color based on score
+                let badgeClass, badgeText;
+                if (score >= 80) {
+                    badgeClass = 'badge-green';
+                    badgeText = 'Growth Ready';
+                    adviceText.textContent = "You're in a great position to scale. Keep refining your systems and sharing your story to stay ahead.";
+                } else if (score >= 40) {
+                    badgeClass = 'badge-orange';
+                    badgeText = 'Solid Progress';
+                    adviceText.textContent = "You've built a solid base. Double down on the areas you scored lowest and watch your momentum build.";
+                } else {
+                    badgeClass = 'badge-red';
+                    badgeText = 'Just Getting Started';
+                    adviceText.textContent = "You're just getting started. Focus on building your foundations one step at a time. Small consistent actions will compound faster than you think.";
+                }
+                
+                scoreBadge.className = `score-badge ${badgeClass}`;
+                scoreBadge.textContent = badgeText;
+                
+                // Show improvement areas
+                improvementsContainer.innerHTML = '';
+                if (improvements.length > 0) {
+                    const improvementsTitle = document.createElement('h3');
+                    improvementsTitle.style.textAlign = 'left';
+                    improvementsTitle.style.margin = '32px 0 16px';
+                    improvementsTitle.textContent = '⚡ Areas To Improve';
+                    improvementsContainer.appendChild(improvementsTitle);
+                    
+                    improvements.forEach(improvement => {
+                        const card = document.createElement('div');
+                        card.className = 'improvement-card';
+                        
+                        const questionText = document.createElement('h4');
+                        questionText.textContent = improvement.question;
+                        card.appendChild(questionText);
+                        
+                        const answerText = document.createElement('p');
+                        answerText.textContent = `You picked: ${improvement.answer}`;
+                        card.appendChild(answerText);
+                        
+                        const adviceText = document.createElement('p');
+                        adviceText.textContent = improvement.advice;
+                        card.appendChild(adviceText);
+                        
+                        improvementsContainer.appendChild(card);
+                    });
+                }
+                
+                // Set up social sharing with the updated message
+                const url = encodeURIComponent(window.location.href);
+                const message = `I scored ${score}% on the business growth survey! I also got a free PDF with great tips to help my business grow. It only takes a few minutes—highly recommend checking it out. Just click the link to take the survey: https://businessgrowthsurvey.netlify.app/`;
+                
+                // Twitter share
+                twitterShare.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`, 'twitter-share-dialog', 'width=626,height=436');
+                });
+                
+                // LinkedIn share
+                linkedinShare.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, 'linkedin-share-dialog', 'width=626,height=436');
+                });
+                
+                surveyScreen.classList.add('hidden');
+                resultsScreen.classList.remove('hidden');
+            }
+            
+            // Event listeners
+            startSurveyBtn.addEventListener('click', () => {
+                introScreen.classList.add('hidden');
+                surveyScreen.classList.remove('hidden');
+                initSurvey();
+            });
+            
+            prevBtn.addEventListener('click', () => {
+                if (currentQuestion > 0) {
+                    currentQuestion--;
+                    renderQuestion();
+                    updateProgress();
+                }
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                if (currentQuestion < shuffledQuestions.length - 1) {
+                    currentQuestion++;
+                    renderQuestion();
+                    updateProgress();
+                } else {
+                    // Submit survey
+                    surveyScreen.classList.add('hidden');
+                    loadingScreen.classList.remove('hidden');
+                    
+                    // Simulate loading time
+                    setTimeout(() => {
+                        loadingScreen.classList.add('hidden');
+                        showResults();
+                    }, 1500);
+                }
+            });
+            
+            copyLink.addEventListener('click', () => {
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    copyLink.textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyLink.textContent = 'Copy Link';
+                    }, 2000);
+                });
+            });
+            
+            // Check if there are saved answers and show survey screen if so
+            if (answers.some(answer => answer !== null)) {
+                introScreen.classList.add('hidden');
+                surveyScreen.classList.remove('hidden');
+                initSurvey();
+            }
+        });
+    </script>
+</body>
+</html>
